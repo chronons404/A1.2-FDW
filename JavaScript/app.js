@@ -125,11 +125,7 @@ function procurarPais(){
 
   if(procurar === ''){
     let url = `https://restcountries.com/v3.1/independent?status=true`;
-      
-  } else {
-    let url = `https://restcountries.com/v3.1/translation/${procurar}`;
 
-    }
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
     xhr.send();
@@ -163,4 +159,41 @@ function procurarPais(){
       </div>
     </div>
     `
+  } else {
+    let url = `https://restcountries.com/v3.1/translation/${procurar}`;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url, false);
+    xhr.send();
+    let res = JSON.parse(xhr.responseText);
+
+    let p = document.getElementById('principal');
+    res.sort((a, b)=> a.translations.por.common.localeCompare(b.translations.por.common));
+
+    HTMLpaises = "";
+
+    for(i in res){
+      HTMLpaises += `
+        <div class="col-md-4 col-sm-6">
+          <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="${res[i].flags.svg}">
+            <div class="card-body">
+              <h3>${res[i].translations.por.common}</h3>
+              <p class="card-text"><b>Capital(is): </b>${res[i].capital}</p>
+              <p class="card-text"><b>População: </b>${res[i].population.toLocaleString()} habitantes</p>
+              <p class="card-text"><b>Região: </b>${res[i].region}</p>
+              <a href="pais.html?nome=${res[i].name.official}" class="btn btn-dark">Ver mais</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    p.innerHTML = `
+    <div id="principal" class="container">
+      <div class="row">
+        ${HTMLpaises}
+      </div>
+    </div>
+    `
+    }
   }
