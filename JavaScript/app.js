@@ -130,7 +130,7 @@ function procurarPais(){
     let url = `https://restcountries.com/v3.1/translation/${procurar}`;
 
     }
-let xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
     xhr.send();
     let res = JSON.parse(xhr.responseText);
